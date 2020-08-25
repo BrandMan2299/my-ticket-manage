@@ -9,24 +9,51 @@ function App() {
 
   const [tickets, setTickets] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [hiddenCounter, setHiddenCounter] = useState(0);
+
+  const onRender = async () => {
+    const { data } = await axios.get(`/api/tickets?searchText=${searchText}`);
+    const alterdTickets = data.map(ticket => {
+      ticket.hidden = false;
+      ticket.class = "ticket";
+      return ticket;
+    })
+    setTickets(alterdTickets);
+    setHiddenCounter(0);
+  }
 
   useEffect(() => {
-    const onRender = async () => {
-      const { data } = await axios.get(`/api/tickets?searchText=${searchText}`);
-      setTickets(data);
-    }
     onRender();
   }, [searchText])
 
   const onChange = (e) => {
     setSearchText(e.target.value);
   }
+  const restore = () => {
+    setTickets(tickets.map(ticket => {
+      ticket.hidden = false;
+      ticket.class = "ticket";
+      return ticket;
+    }));
+    setHiddenCounter(0);
+  }
 
   return (
     <main>
-      <NavBar onChange={onChange} />
+      <NavBar
+        onChange={onChange}
+        hiddenCounter={hiddenCounter}
+        restore={restore}
+      />
       {tickets.map((ticket, index) => {
-        return <Ticket key={index} ticket={ticket} />
+        return (
+          <Ticket
+            key={index}
+            ticket={ticket}
+            hiddenCounter={hiddenCounter}
+            setHiddenCounter={setHiddenCounter}
+          />
+        )
       })}
     </main>
   );

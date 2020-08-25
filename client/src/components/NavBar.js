@@ -2,22 +2,11 @@ import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import InputBase from '@material-ui/core/InputBase';
+import Typography from '@material-ui/core/Typography';
 import { fade, makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    menuButton: {
-        marginRight: theme.spacing(2),
-    },
-    title: {
-        flexGrow: 1,
-        display: 'none',
-        [theme.breakpoints.up('sm')]: {
-            display: 'block',
-        },
-    },
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -32,22 +21,13 @@ const useStyles = makeStyles((theme) => ({
             width: 'auto',
         },
     },
-    searchIcon: {
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
     inputRoot: {
         color: 'inherit',
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
-        paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+        paddingLeft: `calc(1em)`,
         transition: theme.transitions.create('width'),
         width: '100%',
         [theme.breakpoints.up('sm')]: {
@@ -63,25 +43,34 @@ export default function NavBar(props) {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            <AppBar position="fixed">
-                <Toolbar>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                        </div>
-                        <InputBase
-                            id="searchInput"
-                            onChange={props.onChange}
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
-                </Toolbar>
-            </AppBar>
-        </div>
+        <AppBar position="sticky">
+            <Toolbar>
+                <div className={classes.search}>
+                    <InputBase
+                        id="searchInput"
+                        onChange={props.onChange}
+                        placeholder="Search…"
+                        classes={{
+                            root: classes.inputRoot,
+                            input: classes.inputInput,
+                        }}
+                        inputProps={{ 'aria-label': 'search' }}
+                    />
+                </div>
+                <Typography hidden={!props.hiddenCounter} variant="subtitle1">
+                    <span id="hideTicketsCounter" style={{ padding: "3px" }}>{props.hiddenCounter}</span>
+                    Tickets are hidden
+                    <Button
+                        id="restoreHideTickets"
+                        variant="contained"
+                        color="primary"
+                        disableElevation={true}
+                        onClick={props.restore}
+                    >
+                        restore
+                    </Button>
+                </Typography>
+            </Toolbar>
+        </AppBar>
     );
 }
