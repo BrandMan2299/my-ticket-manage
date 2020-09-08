@@ -48,7 +48,7 @@ export default function NavBar(props) {
         <div className={classes.search}>
           <InputBase
             id="searchInput"
-            onChange={props.onChange}
+            onChange={props.onTextChange}
             placeholder="Search…"
             classes={{
               root: classes.inputRoot,

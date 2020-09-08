@@ -23,7 +23,7 @@ function App() {
     onRender();
   }, [searchText]);
 
-  const onChange = (e) => {
+  const onTextChange = (e) => {
     setSearchText(e.target.value);
   };
   const restore = () => {
@@ -38,7 +38,7 @@ function App() {
   return (
     <main>
       <NavBar
-        onChange={onChange}
+        onTextChange={onTextChange}
         hiddenCounter={hiddenCounter}
         restore={restore}
       />
